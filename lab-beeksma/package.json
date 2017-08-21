@@ -2,7 +2,7 @@
   "name": "lab-beeksma",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server.js"
@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "uuid": "^3.1.0"
   }
 }
