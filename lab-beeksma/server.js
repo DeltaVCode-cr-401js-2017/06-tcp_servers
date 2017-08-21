@@ -63,7 +63,7 @@ function dataHandler(data,client){
 
 function closeSocket(client){
   if(clientPool.indexOf(client) != -1){
-    console.log(`Client ${client.nickname} has left.`);
+    console.log(`Client ${client.nickname}: ${client.id} has left.`);
     clientPool.splice(clientPool.indexOf(client), 1);
     console.log(clientPool.map(activeClient => activeClient.id));
   }
