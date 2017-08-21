@@ -50,6 +50,9 @@ function dataHandler(data,client){
       client.socket.write(`Sorry, that is not a valid command, try '@all <message>' to message all users, '@dm <nickname> <message>'  to message a specific user or '@nickname <newNickname>' to change your nickname`);
     }
   }
+  else{
+    ee.emit('@all', client, data.toString());
+  }
 }
 
 function closeSocket(client){
