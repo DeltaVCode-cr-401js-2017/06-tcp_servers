@@ -8,26 +8,37 @@ const EE = require('events');
 const ee = new EE();
 
 const pool = [];
-const uuidv4 = require('uuid/v4');
+const uuid = require('uuid/v4');
+
+function Client(socket){
+  this.nickname = 'guest';
+  this.socket = socket;
+  this.id = uuid.v4();
+}
+
+server.listen('PORT', function(){
+  console.log(`server is listening on ${PORT}`);
+});
+
+server.on('connection', function(socket){
+  var client = new Client(socket);
+  pool.push(client);
+  socket.write(`Welcome. Your ID is ${client.id}.\r\n`);
+  socket.write(`Type @nick to change your nickname \r\n
+                Type @close to exit.\r\n
+                Type @dm followed my a User ID or nickname to direct message a user\r\n`);
+  ee.emit('@all', client, `Welcome, ${client.id} to the chat!`);
+});
 
 ee.on('@all', function (sender, message){
   pool.forEach(client=>{
-    client.socket.write(`${sender.id}: ${message}`);
+    client.socket.write(`${Client.nickname}: ${message}`);
   });
 });
-
-let id = 1;
-server.on('connection', function(socket){
-  const client = {
-    id: id++,
-    socket
-  };
+socket.on('close', function(socket){
+  
 });
-
-socket.write(`Welcome. Your ID is ${client.id}.\r\n`);
-pool.push(client);
 
 socket.on('data', function (data){
   console.log(data);
-  ee.emit('@all', client, )
 })
