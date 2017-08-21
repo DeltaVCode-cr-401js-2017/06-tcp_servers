@@ -18,17 +18,26 @@ server.listen(PORT, function() {
 });
 
 server.on('connection', (socket) => {
-  let newClient = new Client(socket);
-  clientPool.push(newClient);
+  let client = new Client(socket);
+  clientPool.push(client);
   socket.on('data', function (data) {
     console.log(data);
     //handle data
   });
   socket.on('close', function () {
-    //remove from clientPool
+    closeSocket(client);
   });
   socket.on('error', function (err) {
     console.warn();(err);
     //handle data
   });
 });
+
+
+function closeSocket(client){
+  if(clientPool.indexOf(client) != -1){
+    console.log(`Client ${client.nickname} has left.`);
+    clientPool.splice(clientPool.indexOf(client), 1);
+    console.log(clientPool.map(activeClient => activeClient.id));
+  }
+}
