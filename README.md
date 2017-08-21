@@ -1,4 +1,4 @@
-![cf](https://i.imgur.com/7v5ASc8.png) Lab 06: TCP Chat Server
+![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) Lab 06: TCP Chat Server
 ======
 
 ## Submission Instructions
