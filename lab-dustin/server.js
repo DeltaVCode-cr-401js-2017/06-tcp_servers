@@ -19,6 +19,10 @@ ee.on('@all',function(sender,message){
   });
 });
 
+ee.on('@nickname',function(sender,name){
+
+});
+
 server.on('connection',function(socket){
   var client = new constructor.Client(socket);
   pool.push(client);
@@ -26,7 +30,13 @@ server.on('connection',function(socket){
   console.log(`New user joined. Users active: ${pool.length}`);
 
   socket.on('data',function(data){
+    if (data.toString('utf-8').indexOf('@')){
+      console.log('command present');
+      //read the command
+    }
+    console.log(data.toString('utf-8'));
     ee.emit('@all',client,data.toString());
+    ee.emit('@nickname',client,data.toString());
     });
 
   server.on('error',err => {
