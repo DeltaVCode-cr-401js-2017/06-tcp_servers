@@ -24,6 +24,12 @@ ee.on('@all', function (sender, message) {
   });
 });
 
+ee.on('@nickname', function (sender, newNickname) {
+  sender.nickname = newNickname;
+  console.log(`Client ${sender.id} nickname changed to ${sender.nickname}`);
+  sender.socket.write(`Your nickname has been changed to: ${sender.nickname}\r\n> `);
+});
+
 server.listen(PORT, function() {
   console.log(`Listening on ${PORT}`);
 });
