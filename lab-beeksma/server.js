@@ -37,6 +37,7 @@ server.listen(PORT, function() {
 server.on('connection', (socket) => {
   let client = new Client(socket);
   clientPool.push(client);
+  socket.write(`Welcome to chat, your nickname is ${client.nickname}.  Please use '@nickname <newNickname>' to change your nickname.  Please use '@all <message>' to message all users, '@dm <nickname> <message>'  to message a specific user.\r\n> `);
   socket.on('data', function (data) {
     console.log(data);
     dataHandler(data,client);
@@ -63,7 +64,7 @@ function dataHandler(data,client){
     ee.emit('@nickname', client, dataArray[1]);
   }
   else {
-    client.socket.write(`Sorry, that is not a valid command, try '@all <message>' to message all users, '@dm <nickname> <message>'  to message a specific user or '@nickname <newNickname>' to change your nickname\r\n> `);
+    client.socket.write(`Sorry, that is not a valid command, try '@all <message>' to message all users, '@dm <nickname> <message>'  to message a specific user, or '@nickname <newNickname>' to change your nickname.\r\n> `);
   }
 }
 
