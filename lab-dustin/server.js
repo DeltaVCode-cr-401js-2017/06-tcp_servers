@@ -20,7 +20,7 @@ ee.on('@all',function(sender,message){
 });
 
 ee.on('@nickname',function(sender,name){
-
+  console.log(`${sender.id} requests username change.`)
 });
 
 server.on('connection',function(socket){
@@ -30,14 +30,19 @@ server.on('connection',function(socket){
   console.log(`New user joined. Users active: ${pool.length}`);
 
   socket.on('data',function(data){
-    if (data.toString('utf-8').indexOf('@')){
-      console.log('command present');
-      //read the command
+    var startCommand = data.toString('utf-8').indexOf('@');
+    var endCommand = data.toString('utf-8').indexOf(' ');
+    var command = data.toString('utf-8').slice(startCommand,endCommand);
+    console.log(command);
+
+    if (command === '@all'){
+      ee.emit('@all',client,data.toString().slice(++endCommand));
     }
-    console.log(data.toString('utf-8'));
-    ee.emit('@all',client,data.toString());
-    ee.emit('@nickname',client,data.toString());
-    });
+    if (command === '@nickname'){
+      console.log('Change nickname');
+      ee.emit('@nickname',client,data.toString().slice(++endCommand));
+    }
+  });
 
   server.on('error',err => {
     console.error(err);
