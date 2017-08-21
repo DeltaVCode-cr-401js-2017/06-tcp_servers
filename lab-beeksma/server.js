@@ -10,12 +10,16 @@ const ee = new EE();
 const clientPool = [];
 
 function Client(socket){
-  this.nickname = 'anon';
+  this.nickname = 'default';
   this.id = uuidv4();
   this.socket = socket;
 }
 
 ee.on('@all', function (sender, message) {
+  if(sender.nickname === 'default'){
+    sender.socket.write(`You must set your nickname before sending a message.  Use '@nickname <newNickname>' to change your nickname. \r\n> `);
+    return;
+  }
   clientPool.forEach(receiver => {
     if (receiver.id === sender.id) return;
 
@@ -26,6 +30,10 @@ ee.on('@all', function (sender, message) {
 });
 
 ee.on('@dm', function (sender, target, message) {
+  if(sender.nickname === 'default'){
+    sender.socket.write(`You must set your nickname before sending a message.  Use '@nickname <newNickname>' to change your nickname. \r\n> `);
+    return;
+  }
   clientPool.forEach(receiver => {
     if(receiver.nickname === target){
       console.log(`Client ${receiver.id} receiving message`);
