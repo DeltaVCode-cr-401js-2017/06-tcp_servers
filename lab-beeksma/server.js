@@ -15,6 +15,15 @@ function Client(socket){
   this.socket = socket;
 }
 
+ee.on('@all', function (sender, message) {
+  clientPool.forEach(receiver => {
+    if (receiver.id === sender.id) return;
+
+    console.log(`Client ${receiver.id} receiving message`);
+    receiver.socket.write(`${sender.id}: ${message}`);
+  });
+});
+
 server.listen(PORT, function() {
   console.log(`Listening on ${PORT}`);
 });
