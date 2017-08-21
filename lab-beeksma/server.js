@@ -38,16 +38,16 @@ function dataHandler(data,client){
   let dataArray = data.toString().split(' ');
   if(data.toString()[0] === '@'){
     if(dataArray[0] === '@all'){
-      ee.emit('@all', client, 'message');
+      ee.emit('@all', client, data.toString().replace('@all ', ''));
     }
     else if(dataArray[0] === '@dm') {
-      ee.emit('@dm', client, 'recipient', 'message');
+      ee.emit('@dm', client, dataArray[1], data.toString().replace(`@dm ${dataArray[1]} `, ''));
     }
     else if(dataArray[0] === '@nickname') {
-      ee.emit('@nickname', client, 'newNickname');
+      ee.emit('@nickname', client, dataArray[1]);
     }
     else {
-      client.socket.write(`Sorry, that is not a valid command, try '@all <message>' to message all users, '@dm <nickname> <message>'  to message a specific user or '@nickname <newNickname>' to change your nickname\r\n`);
+      client.socket.write(`Sorry, that is not a valid command, try '@all <message>' to message all users, '@dm <nickname> <message>'  to message a specific user or '@nickname <newNickname>' to change your nickname\r\n> `);
     }
   }
   else{
