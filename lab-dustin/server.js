@@ -20,16 +20,24 @@ ee.on('@all',function(sender,message){
 });
 
 server.on('connection',function(socket){
-  var client = new constructor.Client(socket)
+  var client = new constructor.Client(socket);
   pool.push(client);
+  socket.write(`Welcome. Your ID is ${client.id}.\r\n`);
+  console.log(`New user joined. Users active: ${pool.length}`);
 
   socket.on('data',function(data){
     ee.emit('@all',client,data.toString());
-    /*
-    pool.forEach(function(Client){
-      Client.socket.write(`Someone said: ${data.toString()}`);
     });
-    */
+
+  server.on('error',err => {
+    console.error(err);
+  });
+
+  socket.on('close', function () {
+    console.log(`Client ${client.id} has left.`);
+    pool.splice(pool.indexOf(client), 1);
+    console.log(`Users active: ${pool.length}`);
+    console.log(pool.map(c => c.id));
   });
 });
 
