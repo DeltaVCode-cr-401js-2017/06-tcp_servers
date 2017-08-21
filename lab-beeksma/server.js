@@ -16,3 +16,19 @@ function Client(socket){
 server.listen(PORT, function() {
   console.log(`Listening on ${PORT}`);
 });
+
+server.on('connection', (socket) => {
+  let newClient = new Client(socket);
+  clientPool.push(newClient);
+  socket.on('data', function (data) {
+    console.log(data);
+    //handle data
+  });
+  socket.on('close', function () {
+    //remove from clientPool
+  });
+  socket.on('error', function (err) {
+    console.warn();(err);
+    //handle data
+  });
+});
