@@ -7,6 +7,12 @@ const server = net.createServer();
 
 const clientPool = [];
 
+function Client(socket){
+  this.nickname = 'anon';
+  this.id = uuidv4;
+  socket;
+}
+
 server.listen(PORT, function() {
   console.log(`Listening on ${PORT}`);
 });
