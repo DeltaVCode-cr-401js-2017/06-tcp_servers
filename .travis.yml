@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "7"
+sudo: required
+script:
+  - |
+    (for dir in $(find $PWD -maxdepth 2 -name package.json -printf "%h\n"); do
+      cd $dir && npm install && npm run lint && npm test || exit 1
+    done)
+branches:
+  only:
+  - master
+notifications:
+  email: false
