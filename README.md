@@ -26,7 +26,7 @@ Your lab directory must include
 * create a TCP Server using the NodeJS native `net` module
 * create a `Client` Constructor
 * when sockets connect to the server, a new `Client` instance should be made
-* all clients should have a unique `id` property - this should come from the use of `node-uuid`
+* all clients should have a unique `id` property - this should come from the use of `uuid`
 * when sockets are connected with the client pool they should be given event listeners for `data`, `error`, and `close` events
  * when a socket emits the `close` event, the socket should be removed from the client pool
  * when a socket emits the `error` event, the error should be logged on the server
