@@ -1,0 +1,27 @@
+{
+  "name": "06-tcp_servers",
+  "version": "1.0.0",
+  "description": "![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) Lab 06: TCP Chat Server\r ======",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon .",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dustinyschild/06-tcp_servers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dustinyschild/06-tcp_servers/issues"
+  },
+  "homepage": "https://github.com/dustinyschild/06-tcp_servers#readme",
+  "dependencies": {
+    "nodemon": "^1.11.0",
+    "uuid-v4": "^0.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.5.0"
+  }
+}
