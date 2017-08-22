@@ -4,7 +4,6 @@
   "description": "![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) Lab 06: TCP Chat Server\r ======",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon .",
     "lint": "eslint ."
   },
