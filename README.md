@@ -18,9 +18,13 @@
 <!-- list of files, configurations, tools, etc that are required -->
 Your lab directory must include  
 * `.gitignore`
-* `.eslint`
+* `.eslintrc`
 * `package.json`
 * `README.md`
+
+Your `package.json` must include `scripts` for:
+* `lint`
+* `test`
 
 #### Feature Tasks  
 * create a TCP Server using the NodeJS native `net` module
