@@ -11,11 +11,10 @@ const ee = new EE();
 const pool = [];
 
 ee.on('@all',function(sender,message){
-  console.log(`${sender.id} pings @all channel:\r\n> ${message}`);
   pool.forEach(receiver => {
     if (receiver.id === sender.id) return;
 
-    receiver.socket.write(`${sender.id}: ${message}`);
+    receiver.socket.write(`${sender.id}: ${message}\r\n`);
   });
 });
 
@@ -24,22 +23,31 @@ ee.on('@username',function(sender,name){
   var usernameExists = false;
   pool.forEach(function(user){
     if (user.id === name){
-      sender.socket.write('Username already exists.');
+      sender.socket.write('Username already exists.\r\n');
       usernameExists = true;
     }
   });
 
   if (!usernameExists){
-    console.log(`${sender.id} changed username to: ${name}`);
+    sender.socket.write(`${sender.id} changed username to: ${name}\r\n`);
     sender.id = name;
   }
+});
+
+ee.on('@dm',function(sender,destination,message){
+  pool.forEach(function(receiver){
+    console.log(receiver);
+    if (receiver.id === destination){
+      receiver.socket.write(`${sender.id}: ${message}\r\n`);
+    }
+  });
 });
 
 server.on('connection',function(socket){
   var client = new constructor.Client(socket);
   pool.push(client);
-  socket.write(`Welcome. Your ID is ${client.id}.\r\n`);
   console.log(`${client.id} joined. Users active: ${pool.length}`);
+  socket.write('Commands are prefixed with @\r\n');
 
   socket.on('data',function(data){
     var startCommand = data.toString('utf-8').indexOf('@');
@@ -47,10 +55,16 @@ server.on('connection',function(socket){
     var command = data.toString('utf-8').slice(startCommand,endCommand);
 
     if (command === '@all'){
-      ee.emit('@all',client,data.toString().slice(++endCommand));
-    }
-    if (command === '@username'){
+      ee.emit('@all',client,data.toString().trim().slice(++endCommand));
+    } else if (command === '@username'){
       ee.emit('@username',client,data.toString().trim().slice(++endCommand));
+    } else {
+      ee.emit(
+        '@dm',
+        client,
+        data.toString().trim().slice(startCommand + 1,endCommand),
+        data.toString().trim().slice(endCommand + 1)
+      );
     }
   });
 
@@ -61,7 +75,6 @@ server.on('connection',function(socket){
   socket.on('close', function () {
     console.log(`Client ${client.id} has left.`);
     pool.splice(pool.indexOf(client), 1);
-    console.log(`Users active: ${pool}`);
     console.log(pool.map(c => c.id));
   });
 });
